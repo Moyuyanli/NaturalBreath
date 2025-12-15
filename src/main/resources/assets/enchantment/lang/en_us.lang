@@ -1,0 +1,9 @@
+itemGroup.enchantment=Enchantment
+
+
+item.enchantment.item_enchantment.name=enchantment
+item.enchantment.gold_rod.name=Gold rod
+item.enchantment.gold_natural.name=Natural gold ingots
+
+tile.enchantment.block_steel_furnace.name=EnchantDesk
+tile.enchantment.spirit_gathering.name=spirit gathering
