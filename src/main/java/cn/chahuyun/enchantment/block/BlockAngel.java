@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +22,9 @@ import net.minecraftforge.event.ForgeEventFactory;
 import javax.annotation.Nonnull;
 import java.util.List;
 
+/**
+ * 天使方块
+ */
 public class BlockAngel extends Block {
 
     public static final BlockAngel INSTANCE = new BlockAngel();
@@ -115,7 +117,6 @@ public class BlockAngel extends Block {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            TileEntityGuiFactory.open(playerIn,pos);
 //            Gui.TILE_ENTITY.open(playerIn, worldIn, pos);
         }
         return true;

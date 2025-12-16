@@ -4,14 +4,10 @@ package cn.chahuyun.enchantment;
 import cn.chahuyun.enchantment.gui.EncGuiHandler;
 import cn.chahuyun.enchantment.register.RegistryBlocks;
 import cn.chahuyun.enchantment.register.RegistryItems;
-import net.minecraft.init.Items;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,9 +41,6 @@ public class Enchantment {
     public void init(FMLInitializationEvent event) {
         new EncGuiHandler();
     }
-
-
-
 
 
 }

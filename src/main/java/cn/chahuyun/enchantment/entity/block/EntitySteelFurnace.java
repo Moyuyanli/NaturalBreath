@@ -4,10 +4,11 @@ import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.GuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
-import com.cleanroommc.modularui.value.sync.GuiSyncManager;
-import com.cleanroommc.modularui.widgets.ItemSlot;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
+import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -25,8 +26,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
-
-import static net.minecraft.launchwrapper.LogWrapper.log;
 
 /**
  * @author Moyuyanli
@@ -96,26 +95,43 @@ public final class EntitySteelFurnace extends TileEntity implements IInventory, 
     }
 
 
+    /**
+     * 构建附魔台的用户界面
+     *
+     * @param guiData          GUI数据对象，包含界面相关数据
+     * @param panelSyncManager 面板同步管理器，用于处理界面组件的状态同步
+     * @param uiSettings       UI设置对象，包含界面显示相关的配置信息
+     * @return 返回构建好的模块化面板对象
+     */
     @Override
-    public ModularPanel buildUI(GuiData guiData, GuiSyncManager guiSyncManager) {
+    public ModularPanel buildUI(GuiData guiData, PanelSyncManager panelSyncManager, UISettings uiSettings) {
+        // 创建默认的模块化面板，标题为"附魔台"
         ModularPanel panel = ModularPanel.defaultPanel("附魔台");
+
+        // 创建输入物品槽位并设置位置
         ItemSlot input = new ItemSlot().slot(inventory, 0)
                 .pos(50, 32);
+
+        // 绑定玩家物品栏并添加各个界面组件
         panel.bindPlayerInventory()
                 .child(input)
+                // 添加第一个输出槽位
                 .child(new ItemSlot().slot(inventory, 1)
                         .pos(112, 32))
+                // 添加第二个输出槽位，使用居中对齐方式
                 .child(new ItemSlot().slot(inventory, 2)
                         .alignX(0.5f)
                         .alignY(0.40f)
                 )
+                // 添加进度条控件
                 .child(new ProgressWidget()
                         .size(20)
-                        .leftRel(0.5f).topRelAnchor(0.25f, 0.5f)
+                        .pos(81, 40)
                         .texture(GuiTextures.PROGRESS_ARROW, 20)
                         .value(new DoubleSyncValue(() -> this.progress / 40.0, val -> this.progress = (int) (val * 40.0))));
         return panel;
     }
+
 
     /**
      * @param fuel 玩家当前手持的物品（见 MyLavaFurnace.onBlockActivated）

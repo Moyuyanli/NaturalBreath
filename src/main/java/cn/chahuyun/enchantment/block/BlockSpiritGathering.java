@@ -3,13 +3,19 @@ package cn.chahuyun.enchantment.block;
 import cn.chahuyun.enchantment.Tags;
 import cn.chahuyun.enchantment.entity.block.EntitySpiritGathering;
 import cn.chahuyun.enchantment.tabs.DefaultTabs;
+import com.cleanroommc.modularui.factory.EntityGuiFactory;
+import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,11 +45,18 @@ public class BlockSpiritGathering extends Block {
         this.setRegistryName(new ResourceLocation(Tags.MOD_ID,  getName()));
         this.setTranslationKey(Tags.MOD_ID + '.' + getName());
 
+        // 设置透明度为0，让这个方块走透明渲染层
         this.setLightOpacity(0);
     }
 
 
-    // 1. 让这个方块走透明渲染层（Cutout 用于像玻璃那样硬边透明，Translucent 用于半透明）
+    /**
+     * 获取方块的渲染层
+     * 让这个方块走透明渲染层（Cutout 用于像玻璃那样硬边透明，Translucent 用于半透明）
+     *
+     * @return 方块的渲染层
+     * @see BlockRenderLayer
+     */
     @SideOnly(Side.CLIENT)
     @Override
     public BlockRenderLayer getRenderLayer() {
@@ -79,5 +92,29 @@ public class BlockSpiritGathering extends Block {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         return new EntitySpiritGathering();
+    }
+
+    /**
+     * 方块被激活(右键)
+     *
+     * @param world  世界
+     * @param pos    位置
+     * @param state  方块状态
+     * @param player 玩家
+     * @param hand   手
+     * @param facing 朝向
+     * @param hitX   点击X
+     * @param hitY   点击Y
+     * @param hitZ   点击Z
+     * @return 是否处理了事件
+     */
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof EntitySpiritGathering && !world.isRemote) {
+            TileEntityGuiFactory.INSTANCE.open(player, pos);
+            return true;
+        }
+        return false;
     }
 }

@@ -20,6 +20,9 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 
+/**
+ * 钢炉
+ */
 public final class BlockSteelFurnace extends Block {
 
     public static String registryName = "block_steel_furnace";
@@ -63,7 +66,7 @@ public final class BlockSteelFurnace extends Block {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof EntitySteelFurnace && !world.isRemote) {
-            TileEntityGuiFactory.open(player,pos);
+            TileEntityGuiFactory.INSTANCE.open(player, pos);
 //            player.openGui(Enchantment.instance, EncGuiHandler.STEEL_FURNACE_ID, world, pos.getX(), pos.getY(), pos.getZ());
 //            player.setHeldItem(hand, ((EntitySteelFurnace) tile).tryAcceptFuel(player.getHeldItem(hand)));
 //            player.sendStatusMessage(new TextComponentString("Fuel: " + ((EntitySteelFurnace) tile).getFuel()), true);
